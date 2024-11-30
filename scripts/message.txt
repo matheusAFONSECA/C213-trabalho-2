@@ -1,0 +1,8 @@
+feat(C213_fuzzy): base fuzzy of project
+
+Fuzzy base code with rules,
+controls and views done. Added
+to it was created a requirements
+related to the venv of the project.
+Also, some scripts to help were
+added.
