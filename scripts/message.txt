@@ -1,5 +1,4 @@
-feat(project): base interface of project
+feat(project): informations send
 
-A base interface for visualization
-of informations about the fuzzy
-system were made.
+The informations were send
+using different topics.

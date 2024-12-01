@@ -6,10 +6,8 @@ class StreamlitApp:
     def __init__(self, mqtt_client, data_processor):
         self.mqtt_client = mqtt_client
         self.data_processor = data_processor
-        # self.mqtt_client.connect()
 
     def run(self):
-
         st.set_page_config(
             page_title="Fuzzy system - C213", page_icon="🛩️", layout="wide"
         )
@@ -27,35 +25,39 @@ class StreamlitApp:
     def send_data_tab(self):
         st.header("Send Data to Topics")
         altitude = st.number_input("Enter Altitude:", value=0.0, step=0.1)
-        if st.button("Send Altitude"):
-            self.mqtt_client.publish(self.mqtt_client.topics["altitude"], {"altitude": altitude})
-            st.success(f"Altitude {altitude} sent!")
+        error = st.number_input("Enter Error:", value=0.0, step=0.1)
+        if st.button("Send Data"):
+            self.mqtt_client.publish({"altitude": altitude, "error": error})
+            st.success(f"Altitude {altitude} and Error {error} sent!")
 
     def visualize_data_tab(self):
         st.header("Visualize Data from Topics")
-        
-        # Dados recebidos
-        altitude_data = None # Chama a função de processamento de dados do objeto mqtt_client
-        error_data = None # Chama a função de processamento de dados do objeto mqtt_client
 
-        # Mostrar os dados brutos (debug opcional)
-        if st.button("Show Raw Data"):
-            st.write("Altitude Data:", altitude_data)
-            st.write("Error Data:", error_data)
-
-        # Atualização em tempo real
-        st.write("Listening for new data...")
         with st.spinner("Waiting for updates..."):
-            time.sleep(5)  # Aguarda um segundo antes de atualizar (ou ajuste conforme necessário)
+            time.sleep(2)  # Simula a atualização em tempo real
+            self.mqtt_client.loop()  # Atualiza o loop do MQTT para buscar dados
 
-        # Plotar os dados se disponíveis
-        if altitude_data:
-            st.subheader("Altitude Data")
-            st.line_chart(altitude_data)
+        altitude_data = self.mqtt_client.get_received_data("altitude")
+        error_data = self.mqtt_client.get_received_data("error")
 
-        if error_data:
-            st.subheader("Error Data")
-            st.line_chart(error_data)
+        col1, col2 = st.columns(2)
 
-        if not altitude_data and not error_data:
-            st.warning("No data received yet!")
+        with col1:
+            if altitude_data:
+                st.subheader("Altitude Data")
+                altitude_df = pd.DataFrame(altitude_data)
+                st.line_chart(data=altitude_df, x="timestamp", y="altitude")
+            else:
+                st.warning("No altitude data available.")
+
+        with col2:
+            if error_data:
+                st.subheader("Error Data")
+                error_df = pd.DataFrame(error_data)
+                st.line_chart(data=error_df, x="timestamp", y="error")
+            else:
+                st.warning("No error data available.")
+
+        if st.checkbox("Show Raw Data"):
+            st.write("Raw Altitude Data:", altitude_data)
+            st.write("Raw Error Data:", error_data)
