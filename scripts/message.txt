@@ -1,5 +1,4 @@
-feat(project): interface connect to node-red
+feat(fuzzy): added fuzzy objects of system
 
-Now the interface uses node-red
-to show informations by the 
-fuzzy system.
+It was added the fuzzy code
+wich will control the system.
