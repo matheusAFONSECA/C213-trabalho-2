@@ -1,4 +1,5 @@
-feat(project): informations send
+feat(project): interface connect to node-red
 
-The informations were send
-using different topics.
+Now the interface uses node-red
+to show informations by the 
+fuzzy system.

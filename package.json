@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "node-red-contrib-ui-timelines-chart": "^0.1.9",
+    "node-red-dashboard": "^3.6.5"
+  }
+}
