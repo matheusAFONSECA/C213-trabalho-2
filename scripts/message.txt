@@ -1,4 +1,7 @@
-feat(fuzzy): added fuzzy objects of system
+feat(interface): the interface is done
 
-It was added the fuzzy code
-wich will control the system.
+Now the interface is completed,
+it's running properly with fuzzy
+to make decisions and plot all
+informations about the fuzzy
+project.
