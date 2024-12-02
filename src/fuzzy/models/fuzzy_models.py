@@ -16,11 +16,11 @@ class FuzzyModels:
     def pertinence(self):
         # Definindo funções de pertinência para o erro
         self.Erro["Z"] = fuzz.trapmf(self.Erro.universe, [0, 0, 7.5, 7.5])  # Zero Error
-        self.Erro["R1"] = fuzz.trimf(self.Erro.universe, [0, 15, 30])  # erro 1
-        self.Erro["R2"] = fuzz.trimf(self.Erro.universe, [15, 45, 80])  # Erro 2
-        self.Erro["R3"] = fuzz.trimf(self.Erro.universe, [50, 125, 350])  # Erro 3
+        self.Erro["R1"] = fuzz.trimf(self.Erro.universe, [7.5, 15, 30])  # erro 1
+        self.Erro["R2"] = fuzz.trimf(self.Erro.universe, [15, 30, 80])  # Erro 2
+        self.Erro["R3"] = fuzz.trimf(self.Erro.universe, [30, 80, 650])  # Erro 3
         self.Erro["R4"] = fuzz.trapmf(
-            self.Erro.universe, [125, 800, 1000, 1000]
+            self.Erro.universe, [80, 650, 1000, 1000]
         )  # Erro 4
 
         # Funções de pertinência para 'DeltaErro'
@@ -42,16 +42,16 @@ class FuzzyModels:
 
         # Funções de pertinência para PMotor -----> PHn,m ⊂ [0, 1]
         self.PotenciaMotor["I"] = fuzz.trimf(
-            self.PotenciaMotor.universe, [0, 0.15, 0.20]
+            self.PotenciaMotor.universe, [0, 0.15, 0.25]
         )  # Potência Inicio
         self.PotenciaMotor["MB"] = fuzz.trimf(
-            self.PotenciaMotor.universe, [0.15, 0.20, 0.3]
+            self.PotenciaMotor.universe, [0.20, 0.30, 0.35]
         )
         self.PotenciaMotor["B"] = fuzz.trimf(
-            self.PotenciaMotor.universe, [0.3, 0.4, 0.55]
+            self.PotenciaMotor.universe, [0.3, 0.45, 0.6]
         )  # Potência Baixa
         self.PotenciaMotor["M"] = fuzz.trimf(
-            self.PotenciaMotor.universe, [0.45, 0.70, 0.80]
+            self.PotenciaMotor.universe, [0.55, 0.70, 0.80]
         )  # Potência Média
         self.PotenciaMotor["A"] = fuzz.trimf(
             self.PotenciaMotor.universe, [0.75, 0.85, 1]
