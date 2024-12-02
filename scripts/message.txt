@@ -1,7 +1,5 @@
-feat(interface): the interface is done
+fix(fuzzy): rules and controls changed
 
-Now the interface is completed,
-it's running properly with fuzzy
-to make decisions and plot all
-informations about the fuzzy
-project.
+Somes fixes in rules and controls
+were necessary to a better fuzzy
+system.

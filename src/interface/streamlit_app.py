@@ -27,16 +27,32 @@ class StreamlitApp:
         altitude = st.number_input("Enter Altitude:", value=0, step=1)
 
         if st.button("Send Altitude"):
-            self.fuzzy_control.Subir_e_Descer(altitude)
+            # Ler a posição atual do arquivo
+            try:
+                with open("posicao_atual.txt", "r") as file:
+                    current_position = float(file.read())
+            except FileNotFoundError:
+                current_position = 0.0  # Valor padrão se o arquivo não existir
 
+            # Somar altitude com a posição atual
+            new_position = current_position + altitude
+
+            # Passar o novo valor para o controle fuzzy
+            self.fuzzy_control.Subir_e_Descer(new_position)
+
+            # Publicar os valores calculados
             self.mqtt_client.publish(
                 self.mqtt_client.topics["altitude"], self.fuzzy_control.Pos_Atual
             )
-
             self.mqtt_client.publish(
                 self.mqtt_client.topics["error"], self.fuzzy_control.DeltaErroAtual
             )
 
+            # Salvar o novo valor da posição atual no arquivo
+            with open("posicao_atual.txt", "w") as file:
+                file.write(f"{self.fuzzy_control.Pos_Atual:.3f}")
+
+            # Mostrar mensagens de sucesso
             st.success(
                 f"Altitude defined by fuzzy control {self.fuzzy_control.Pos_Atual:.3f} sent!"
             )
@@ -50,10 +66,13 @@ class StreamlitApp:
             self.mqtt_client.publish(
                 self.mqtt_client.topics["altitude"], self.fuzzy_control.Pos_Atual
             )
-
             self.mqtt_client.publish(
                 self.mqtt_client.topics["error"], self.fuzzy_control.DeltaErroAtual
             )
+
+            # Salvar a posição atual (pouso)
+            with open("posicao_atual.txt", "w") as file:
+                file.write(f"{self.fuzzy_control.Pos_Atual:.3f}")
 
             st.success(
                 f"Altitude defined by fuzzy control {self.fuzzy_control.Pos_Atual:.3f} sent!"
@@ -61,6 +80,7 @@ class StreamlitApp:
             st.success(
                 f"Erro defined by fuzzy control {self.fuzzy_control.DeltaErroAtual:.3f} sent!"
             )
+
 
     def visualize_data_tab(self):
         st.header("Visualize Data from Fuzzy Project")

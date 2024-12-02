@@ -15,7 +15,7 @@ class FuzzyModels:
 
     def pertinence(self):
         # Definindo funções de pertinência para o erro
-        self.Erro["Z"] = fuzz.trapmf(self.Erro.universe, [0, 0, 2.5, 2.5])  # Zero Error
+        self.Erro["Z"] = fuzz.trapmf(self.Erro.universe, [0, 0, 7.5, 7.5])  # Zero Error
         self.Erro["R1"] = fuzz.trimf(self.Erro.universe, [0, 15, 30])  # erro 1
         self.Erro["R2"] = fuzz.trimf(self.Erro.universe, [15, 45, 80])  # Erro 2
         self.Erro["R3"] = fuzz.trimf(self.Erro.universe, [50, 125, 350])  # Erro 3
@@ -41,17 +41,20 @@ class FuzzyModels:
         )  # Grande Positivo
 
         # Funções de pertinência para PMotor -----> PHn,m ⊂ [0, 1]
-        self.PotenciaMotor["I"] = fuzz.trapmf(
-            self.PotenciaMotor.universe, [0, 0, 0.1, 0.25]
+        self.PotenciaMotor["I"] = fuzz.trimf(
+            self.PotenciaMotor.universe, [0, 0.15, 0.20]
         )  # Potência Inicio
+        self.PotenciaMotor["MB"] = fuzz.trimf(
+            self.PotenciaMotor.universe, [0.15, 0.20, 0.3]
+        )
         self.PotenciaMotor["B"] = fuzz.trimf(
-            self.PotenciaMotor.universe, [0.10, 0.25, 0.50]
+            self.PotenciaMotor.universe, [0.3, 0.4, 0.55]
         )  # Potência Baixa
         self.PotenciaMotor["M"] = fuzz.trimf(
-            self.PotenciaMotor.universe, [0.30, 0.50, 0.75]
+            self.PotenciaMotor.universe, [0.45, 0.70, 0.80]
         )  # Potência Média
-        self.PotenciaMotor["A"] = fuzz.trapmf(
-            self.PotenciaMotor.universe, [0.50, 0.75, 1, 1]
+        self.PotenciaMotor["A"] = fuzz.trimf(
+            self.PotenciaMotor.universe, [0.75, 0.85, 1]
         )  # Potência Alta
 
     def pertinence_error_plot(self):
@@ -87,20 +90,20 @@ class FuzzyModels:
             self.Erro["Z"] & self.dErro["MB"], self.PotenciaMotor["I"]
         )  # Z + MP -> MP
         R2 = ctrl.Rule(
-            self.Erro["Z"] & self.dErro["B"], self.PotenciaMotor["B"]
+            self.Erro["Z"] & self.dErro["B"], self.PotenciaMotor["MB"]
         )  # Z + P -> P
         R3 = ctrl.Rule(
-            self.Erro["Z"] & self.dErro["Z"], self.PotenciaMotor["M"]
+            self.Erro["Z"] & self.dErro["Z"], self.PotenciaMotor["B"]
         )  # Z + Z -> MP
         R4 = ctrl.Rule(
-            self.Erro["Z"] & self.dErro["A"], self.PotenciaMotor["A"]
+            self.Erro["Z"] & self.dErro["A"], self.PotenciaMotor["M"]
         )  # Z + N -> M
         R5 = ctrl.Rule(
-            self.Erro["Z"] & self.dErro["MA"], self.PotenciaMotor["A"]
+            self.Erro["Z"] & self.dErro["MA"], self.PotenciaMotor["M"]
         )  # Z + MN -> MG
 
         R6 = ctrl.Rule(
-            self.Erro["R1"] & self.dErro["MB"], self.PotenciaMotor["I"]
+            self.Erro["R1"] & self.dErro["MB"], self.PotenciaMotor["MB"]
         )  # P + MP -> MP
         R7 = ctrl.Rule(
             self.Erro["R1"] & self.dErro["B"], self.PotenciaMotor["B"]
@@ -116,7 +119,7 @@ class FuzzyModels:
         )  # P + MN -> M
 
         R11 = ctrl.Rule(
-            self.Erro["R2"] & self.dErro["MB"], self.PotenciaMotor["B"]
+            self.Erro["R2"] & self.dErro["MB"], self.PotenciaMotor["MB"]
         )  # M + MP -> P
         R12 = ctrl.Rule(
             self.Erro["R2"] & self.dErro["B"], self.PotenciaMotor["B"]
@@ -138,7 +141,7 @@ class FuzzyModels:
             self.Erro["R3"] & self.dErro["B"], self.PotenciaMotor["M"]
         )  # G + P -> P
         R18 = ctrl.Rule(
-            self.Erro["R3"] & self.dErro["Z"], self.PotenciaMotor["M"]
+            self.Erro["R3"] & self.dErro["Z"], self.PotenciaMotor["A"]
         )  # G + Z -> G
         R19 = ctrl.Rule(
             self.Erro["R3"] & self.dErro["A"], self.PotenciaMotor["A"]

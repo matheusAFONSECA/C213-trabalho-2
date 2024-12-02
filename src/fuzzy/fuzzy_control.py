@@ -103,23 +103,23 @@ class FuzzyControl:
             ErroAtual = abs(Pos_Final - self.Pos_Atual)
             errors.append(ErroAtual)
 
-            if ErroAtual < 12:
-                FA = 0.98
+            if ErroAtual < 10:
+                FA = 0.98875
             else:
                 FA = 0.99
 
             self.Controle_Fuzz.input["Erro"] = ErroAtual
-            self.DeltaErroAtual = (errors[-1] - errors[-2]) / dt
+            self.DeltaErroAtual = (errors[-1] - errors[-2])
             self.Controle_Fuzz.input["dErro"] = self.DeltaErroAtual
             self.Controle_Fuzz.compute()
             Potencia = self.Controle_Fuzz.output["PMotor"]
 
-            if ErroAtual > 5:
+            if ErroAtual > 15:
                 P12 = Potencia
                 P34 = Potencia
             else:
-                P12 = 0.25
-                P34 = 0.25
+                P12 = 0.4
+                P34 = 0.4
 
             dt = calcular_d(FA, self.Pos_Atual, Umax, P12, P34)
 
