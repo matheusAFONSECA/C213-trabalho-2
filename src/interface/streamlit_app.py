@@ -24,12 +24,12 @@ class StreamlitApp:
     def send_data_tab(self):
         st.header("Control the altitude of the drone")
 
-        altitude = st.number_input("Enter Altitude:", value=0, step=1)
+        altitude = st.number_input("Enter Altitude:", value=0.0, step=0.1)
 
-        if st.button("Send Altitude"):
+        if st.button("Send Altitude") and altitude <= 955 and altitude >= 0:
             # Ler a posição atual do arquivo
             try:
-                with open("posicao_atual.txt", "r") as file:
+                with open("src/data/posicao_atual.txt", "r") as file:
                     current_position = float(file.read())
             except FileNotFoundError:
                 current_position = 0.0  # Valor padrão se o arquivo não existir
@@ -37,28 +37,37 @@ class StreamlitApp:
             # Somar altitude com a posição atual
             new_position = current_position + altitude
 
-            # Passar o novo valor para o controle fuzzy
-            self.fuzzy_control.Subir_e_Descer(new_position)
+            # Verificar se a nova posição ultrapassa o limite
+            if new_position > 955:
+                st.error("Altitude will surpass the maximum")
 
-            # Publicar os valores calculados
-            self.mqtt_client.publish(
-                self.mqtt_client.topics["altitude"], self.fuzzy_control.Pos_Atual
-            )
-            self.mqtt_client.publish(
-                self.mqtt_client.topics["error"], self.fuzzy_control.DeltaErroAtual
-            )
+            else:
+                # Passar o novo valor para o controle fuzzy
+                self.fuzzy_control.Subir_e_Descer(new_position)
 
-            # Salvar o novo valor da posição atual no arquivo
-            with open("posicao_atual.txt", "w") as file:
-                file.write(f"{self.fuzzy_control.Pos_Atual:.3f}")
+                # Publicar os valores calculados
+                self.mqtt_client.publish(
+                    self.mqtt_client.topics["altitude"], self.fuzzy_control.Pos_Atual
+                )
+                self.mqtt_client.publish(
+                    self.mqtt_client.topics["error"], self.fuzzy_control.DeltaErroAtual
+                )
 
-            # Mostrar mensagens de sucesso
-            st.success(
-                f"Altitude defined by fuzzy control {self.fuzzy_control.Pos_Atual:.3f} sent!"
-            )
-            st.success(
-                f"Erro defined by fuzzy control {self.fuzzy_control.DeltaErroAtual:.3f} sent!"
-            )
+                # Salvar o novo valor da posição atual no arquivo
+                with open("src/data/posicao_atual.txt", "w") as file:
+                    file.write(f"{self.fuzzy_control.Pos_Atual:.3f}")
+
+                # Mostrar mensagens de sucesso
+                st.success(
+                    f"Altitude defined by fuzzy control {self.fuzzy_control.Pos_Atual:.3f} sent!"
+                )
+                st.success(
+                    f"Erro defined by fuzzy control {self.fuzzy_control.DeltaErroAtual:.3f} sent!"
+                )
+
+        # Verificar se a altitude está fora do limite
+        if altitude > 955 or altitude < 0:
+            st.error("Altitude must be between 0 and 955!")
 
         if st.button("Land Drone"):
             self.fuzzy_control.Subir_e_Descer(0)
@@ -71,7 +80,7 @@ class StreamlitApp:
             )
 
             # Salvar a posição atual (pouso)
-            with open("posicao_atual.txt", "w") as file:
+            with open("src/data/posicao_atual.txt", "w") as file:
                 file.write(f"{self.fuzzy_control.Pos_Atual:.3f}")
 
             st.success(

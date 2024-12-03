@@ -1,5 +1,5 @@
-fix(fuzzy): rules and controls changed
+fix(interface): altitude values permited
 
-Somes fixes in rules and controls
-were necessary to a better fuzzy
-system.
+Now the interface display a message
+of error when it's put some values
+incorrects to altitude's range.
