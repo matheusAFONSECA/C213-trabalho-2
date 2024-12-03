@@ -34,7 +34,7 @@ Follow the steps below to set up and run the project locally.
 To get started, clone this repository to your local machine. Run the following command in the directory where you want to save the repository:
 
 ```bash
-git clone https://github.com/matheusAFONSECA/C213-trabalho-1.git
+git clone https://github.com/matheusAFONSECA/C213-trabalho-2.git
 ```
 
 ### Setting Up the Virtual Environment
