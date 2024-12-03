@@ -1,5 +1,4 @@
-fix(notebook): ajusting fuzzy system
+docs(ReadMe): ReadMe ajusted to explain the project
 
-In the notebook was some functions
-which need to updated following
-thw fixes made in the fuzzy system.
+Now the ReadMe explains the project, 
+code and interface.
