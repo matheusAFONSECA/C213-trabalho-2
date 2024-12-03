@@ -1,5 +1,5 @@
-fix(interface): altitude values permited
+fix(notebook): ajusting fuzzy system
 
-Now the interface display a message
-of error when it's put some values
-incorrects to altitude's range.
+In the notebook was some functions
+which need to updated following
+thw fixes made in the fuzzy system.
