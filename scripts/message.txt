@@ -1,4 +1,4 @@
-docs(ReadMe): ReadMe ajusted to explain the project
+fix(plot): plot ajusted
 
-Now the ReadMe explains the project, 
-code and interface.
+plot of delta error
+ajusted.

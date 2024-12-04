@@ -67,6 +67,7 @@ class FuzzyModels:
         # Plot para Delta Erro
         self.dErro.view()
         plt.title("Funções de Pertinência - Delta Erro")
+        plt.xlim(-10, 10)
         return plt
 
     def pertinence_potencia_motor_plot(self):
