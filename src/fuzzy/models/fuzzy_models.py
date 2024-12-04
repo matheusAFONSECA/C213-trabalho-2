@@ -7,7 +7,7 @@ from skfuzzy import control as ctrl
 class FuzzyModels:
     def __init__(self):
         self.Erro = ctrl.Antecedent(universe=np.arange(0, 1001, 1), label="Erro")
-        self.dErro = ctrl.Antecedent(universe=np.arange(-1000, 1001, 1), label="dErro")
+        self.dErro = ctrl.Antecedent(universe=np.arange(-1000, 1001, 0.5), label="dErro")
         self.PotenciaMotor = ctrl.Consequent(
             universe=np.arange(0, 1.01, 0.01), label="PMotor"
         )

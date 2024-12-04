@@ -26,7 +26,7 @@ class StreamlitApp:
 
         altitude = st.number_input("Enter Altitude:", value=0.0, step=0.1)
 
-        if st.button("Send Altitude") and altitude <= 955 and altitude >= 0:
+        if st.button("Send Altitude") and altitude <= 995 and altitude >= 0:
             # Ler a posição atual do arquivo
             try:
                 with open("src/data/posicao_atual.txt", "r") as file:
@@ -38,7 +38,7 @@ class StreamlitApp:
             new_position = current_position + altitude
 
             # Verificar se a nova posição ultrapassa o limite
-            if new_position > 955:
+            if new_position > 995:
                 st.error("Altitude will surpass the maximum")
 
             else:
@@ -66,8 +66,8 @@ class StreamlitApp:
                 )
 
         # Verificar se a altitude está fora do limite
-        if altitude > 955 or altitude < 0:
-            st.error("Altitude must be between 0 and 955!")
+        if altitude > 995 or altitude < 0:
+            st.error("Altitude must be between 0 and 995!")
 
         if st.button("Land Drone"):
             self.fuzzy_control.Subir_e_Descer(0)
