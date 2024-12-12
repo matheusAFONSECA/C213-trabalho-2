@@ -1,4 +1,4 @@
-fix(plot): plot ajusted
+docs(project): documentation code
 
-plot of delta error
-ajusted.
+All the code were documentated
+following the PEP8 rules.

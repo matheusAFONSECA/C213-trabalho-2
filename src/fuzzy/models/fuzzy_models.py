@@ -5,9 +5,41 @@ from skfuzzy import control as ctrl
 
 
 class FuzzyModels:
+    """
+    A class used to represent Fuzzy Models for controlling motor power based on error and delta error.
+    Attributes
+    ----------
+    Erro : skfuzzy.control.Antecedent
+        Fuzzy variable representing the error.
+    dErro : skfuzzy.control.Antecedent
+        Fuzzy variable representing the delta error.
+    PotenciaMotor : skfuzzy.control.Consequent
+        Fuzzy variable representing the motor power.
+    Base : list
+        List of fuzzy rules.
+    Methods
+    -------
+    __init__():
+        Initializes the fuzzy variables and the rule base.
+    pertinence():
+        Defines the membership functions for the fuzzy variables.
+    pertinence_error_plot():
+        Plots the membership functions for the error variable.
+    pertinence_derror_plot():
+        Plots the membership functions for the delta error variable.
+    pertinence_potencia_motor_plot():
+        Plots the membership functions for the motor power variable.
+    pertinence_plots():
+        Plots the membership functions for all fuzzy variables.
+    rules():
+        Defines the fuzzy rules and initializes the rule base.
+    """
+
     def __init__(self):
         self.Erro = ctrl.Antecedent(universe=np.arange(0, 1001, 1), label="Erro")
-        self.dErro = ctrl.Antecedent(universe=np.arange(-1000, 1001, 0.5), label="dErro")
+        self.dErro = ctrl.Antecedent(
+            universe=np.arange(-1000, 1001, 0.5), label="dErro"
+        )
         self.PotenciaMotor = ctrl.Consequent(
             universe=np.arange(0, 1.01, 0.01), label="PMotor"
         )

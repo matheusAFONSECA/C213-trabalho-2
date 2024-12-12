@@ -1,7 +1,26 @@
 import paho.mqtt.client as mqtt
 import json
 
+
 class MQTTClient:
+    """
+    A client for connecting to an MQTT broker, subscribing to topics, and handling messages.
+    Attributes:
+        broker (str): The address of the MQTT broker.
+        topics (dict): A dictionary of topics to subscribe to.
+        client (paho.mqtt.client.Client): The MQTT client instance.
+        received_data (dict): A dictionary to store received data for different topics.
+    Methods:
+        __init__(broker, topics):
+            Initializes the MQTTClient with the broker address and topics.
+        connect():
+            Connects to the MQTT broker and subscribes to the specified topics.
+        on_message(client, userdata, msg):
+            Callback function that handles incoming messages and stores data.
+        publish(topic, data):
+            Publishes data to a specified topic.
+    """
+
     def __init__(self, broker, topics):
         self.broker = broker
         self.topics = topics

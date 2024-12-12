@@ -9,6 +9,34 @@ from fuzzy.models.fuzzy_models import FuzzyModels
 
 
 class FuzzyControl:
+    """
+    A class to represent a fuzzy control system for a drone.
+    Attributes
+    ----------
+    fuzzy_models : FuzzyModels
+        An instance of the FuzzyModels class containing the fuzzy logic rules and terms.
+    Controle_Fuzz : ctrl.ControlSystemSimulation
+        A simulation of the fuzzy control system.
+    Pos_Atual : float
+        The current position of the drone.
+    casa : float or None
+        The home position of the drone.
+    DeltaErroAtual : float
+        The current change in error.
+    Methods
+    -------
+    infer_rules():
+        Infers the fuzzy rules and returns a pivot table of the results.
+    Subir_e_Descer(Pos_Final):
+        Controls the drone to move up and down to reach the final position.
+    set_home():
+        Sets the current position as the home position.
+    go_to_home():
+        Moves the drone to the home position.
+    ligar(altura=5):
+        Starts the drone and moves it to the specified height.
+    """
+
     def __init__(self):
         self.fuzzy_models = FuzzyModels()
         self.fuzzy_models.rules()
@@ -109,7 +137,7 @@ class FuzzyControl:
                 FA = 0.99
 
             self.Controle_Fuzz.input["Erro"] = ErroAtual
-            self.DeltaErroAtual = (errors[-1] - errors[-2])
+            self.DeltaErroAtual = errors[-1] - errors[-2]
             self.Controle_Fuzz.input["dErro"] = self.DeltaErroAtual
             self.Controle_Fuzz.compute()
             Potencia = self.Controle_Fuzz.output["PMotor"]

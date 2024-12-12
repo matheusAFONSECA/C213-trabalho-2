@@ -1,6 +1,25 @@
 import streamlit as st
 
+
 class StreamlitApp:
+    """
+    A class used to represent the Streamlit application for the Fuzzy System - C213.
+    Attributes
+    ----------
+    mqtt_client : object
+        An instance of the MQTT client used for communication.
+    fuzzy_control : object
+        An instance of the fuzzy control system.
+    Methods
+    -------
+    run():
+        Configures and runs the Streamlit application.
+    send_data_tab():
+        Handles the "Send Data" tab for controlling the drone's altitude.
+    visualize_data_tab():
+        Handles the "Visualize Data" tab for visualizing fuzzy model data.
+    """
+
     def __init__(self, mqtt_client, fuzzy_control):
         self.mqtt_client = mqtt_client
         self.mqtt_client.connect()
@@ -89,7 +108,6 @@ class StreamlitApp:
             st.success(
                 f"Erro defined by fuzzy control {self.fuzzy_control.DeltaErroAtual:.3f} sent!"
             )
-
 
     def visualize_data_tab(self):
         st.header("Visualize Data from Fuzzy Project")
